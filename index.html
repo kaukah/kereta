@@ -36,7 +36,6 @@
             visibility: hidden;
             position: absolute;
             width: calc(100% - 3rem); /* Menyesuaikan dengan padding container */
-            max-width: 550px;
         }
         .tab-content.active {
             opacity: 1;
@@ -80,8 +79,8 @@
 <body class="flex items-center justify-center min-h-screen p-4">
 
     <!-- Container utama aplikasi -->
-    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 w-full max-w-xl">
-        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-2">Jadwal Perjalanan</h1>
+    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 w-full">
+        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-2">🚂 Jadwal Kereta Api</h1>
 
         <!-- View utama dengan tabs (KA BIAS + KRL) -->
         <div id="main-view" class="fade-in">
@@ -98,9 +97,10 @@
             </div>
 
             <!-- Tombol tab untuk pergi dan pulang -->
-            <div class="flex justify-center space-x-4 mb-6">
-                <button id="tab-pergi" class="tab-button active px-6 py-2 rounded-lg font-semibold text-gray-700 bg-gray-200 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Sragen → Jogja</button>
-                <button id="tab-pulang" class="tab-button px-6 py-2 rounded-lg font-semibold text-gray-700 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Jogja → Sragen</button>
+            <!-- Menghilangkan justify-center dan menambahkan flex-1 ke tombol -->
+            <div class="flex space-x-4 mb-6">
+                <button id="tab-pergi" class="tab-button active flex-1 px-6 py-2 rounded-lg font-semibold text-gray-700 bg-gray-200 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Sragen → Jogja</button>
+                <button id="tab-pulang" class="tab-button flex-1 px-6 py-2 rounded-lg font-semibold text-gray-700 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Jogja → Sragen</button>
             </div>
 
             <!-- Konten tab Pergi -->
@@ -120,14 +120,14 @@
             <!-- Tombol untuk melihat jadwal KRL lengkap -->
             <div class="mt-8 text-center">
                 <button id="show-krl-schedule" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-lg shadow-md transition-all duration-300 hover:bg-indigo-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    JADWAL LENGKAP KRL SOLO - JOGJA
+                    🔍 JADWAL KRL
                 </button>
             </div>
         </div>
 
         <!-- View terpisah untuk jadwal KRL lengkap (hidden by default) -->
         <div id="krl-view" class="hidden">
-            <h2 class="text-3xl font-bold text-center text-indigo-700 mb-6">Jadwal Lengkap KRL</h2>
+            <h2 class="text-3xl font-bold text-center text-indigo-700 mb-6">KRL Palur - Jogja</h2>
 
             <!-- Area untuk timer besar kereta KRL terdekat -->
             <div class="text-center mb-6">
@@ -142,9 +142,10 @@
             </div>
 
             <!-- Tombol tab untuk rute KRL -->
-            <div class="flex justify-center space-x-4 mb-6">
-                <button id="tab-krl-solo-jogja" class="krl-tab-button active px-6 py-2 rounded-lg font-semibold text-gray-700 bg-gray-200 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Solo → Jogja</button>
-                <button id="tab-krl-jogja-solo" class="krl-tab-button px-6 py-2 rounded-lg font-semibold text-gray-700 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Jogja → Solo</button>
+            <!-- Menghilangkan justify-center dan menambahkan flex-1 ke tombol -->
+            <div class="flex space-x-4 mb-6">
+                <button id="tab-krl-solo-jogja" class="krl-tab-button active flex-1 px-6 py-2 rounded-lg font-semibold text-gray-700 bg-gray-200 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Palur → Jogja</button>
+                <button id="tab-krl-jogja-solo" class="krl-tab-button flex-1 px-6 py-2 rounded-lg font-semibold text-gray-700 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Jogja → Palur</button>
             </div>
 
             <!-- Konten tab KRL Solo -> Jogja -->
@@ -167,7 +168,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                     </svg>
-                    <span>JADWAL KERETA SRAGEN - JOGJA</span>
+                    <span>🔍 KERETA SRAGEN - JOGJA</span>
                 </button>
             </div>
         </div>
@@ -309,7 +310,7 @@
             if (containerId === 'jadwal-pergi') {
                 const description = document.createElement('p');
                 description.className = 'text-sm text-gray-600 mb-4 text-center';
-                description.innerHTML = 'Perjalanan ini menggunakan <span class="font-bold">KA BIAS</span> dari Sragen ke Solo Jebres, kemudian dilanjutkan dengan <span class="font-bold">KRL</span> dari Solo Jebres ke Jogja.';
+                description.innerHTML = 'Dari Sragen ke Solo Jebres naik <span class="font-bold">KA BIAS</span>, kemudian Solo Jebres ke Jogja naik <span class="font-bold">KRL</span>.';
                 container.appendChild(description);
             }
 
@@ -325,7 +326,7 @@
                             <!-- Menggunakan px-1 dan py-2 untuk padding yang lebih kecil -->
                             <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">BERANGKAT</th>
                             <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">TIBA</th>
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">SISA</th>
+                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">SISA WAKTU</th>
                             <th scope="col" class="px-1 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">DURASI</th>
                         </tr>
                     </thead>
@@ -337,9 +338,9 @@
                             <!-- Kolom "SISA WAKTU" ditambahkan di sini -->
                             <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">BERANGKAT</th>
                             <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">TIBA</th>
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">SISA</th>
+                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">SISA WAKTU</th>
                             <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">TRANSIT</th>
-                            <th scope="col" class="px-1 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">TOTAL</th>
+                            <th scope="col" class="px-1 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">DURASI</th>
                         </tr>
                     </thead>
                 `;
@@ -476,7 +477,7 @@
                 const sisaMenit = Math.floor((sisaWaktuMs % (1000 * 60 * 60)) / (1000 * 60));
                 const sisaDetik = Math.floor((sisaWaktuMs % (1000 * 60)) / 1000);
 
-                infoDisplay.textContent = `Kereta selanjutnya berangkat pukul ${nextTrainElement.dataset.berangkat}`;
+                infoDisplay.textContent = `Kereta selanjutnya pukul ${nextTrainElement.dataset.berangkat}`;
                 
                 let timerText;
                 if (sisaJam > 0) {
