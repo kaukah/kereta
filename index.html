@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Kereta Api Sragen Solo Palur Jogja KRL & KA BIAS</title>
+    <title>🚂 Jadwal Kereta Api Sragen Solo Palur Jogja KRL & KA BIAS oleh Endro Jagovisual</title>
     <!-- Tailwind CSS untuk styling modern dan responsif -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Menggunakan font 'Montserrat' untuk seluruh halaman -->
@@ -310,7 +310,7 @@
             if (containerId === 'jadwal-pergi') {
                 const description = document.createElement('p');
                 description.className = 'text-sm text-gray-600 mb-4 text-center';
-                description.innerHTML = 'Dari Sragen ke Solo Jebres naik <span class="font-bold">KA BIAS</span>, kemudian Solo Jebres ke Jogja naik <span class="font-bold">KRL</span>.';
+                description.innerHTML = '⚠️ Dari Sragen ke Solo Jebres naik <span class="font-bold">KA BIAS</span> Lalu dari Solo Jebres ke Jogja naik <span class="font-bold">KRL</span>.';
                 container.appendChild(description);
             }
 
@@ -477,7 +477,7 @@
                 const sisaMenit = Math.floor((sisaWaktuMs % (1000 * 60 * 60)) / (1000 * 60));
                 const sisaDetik = Math.floor((sisaWaktuMs % (1000 * 60)) / 1000);
 
-                infoDisplay.textContent = `Kereta selanjutnya pukul ${nextTrainElement.dataset.berangkat}`;
+                infoDisplay.textContent = `Kereta selanjutnya pukul 🕒 ${nextTrainElement.dataset.berangkat}`;
                 
                 let timerText;
                 if (sisaJam > 0) {
