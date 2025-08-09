@@ -127,7 +127,7 @@
 
         <!-- View terpisah untuk jadwal KRL lengkap (hidden by default) -->
         <div id="krl-view" class="hidden">
-            <h2 class="text-3xl font-bold text-center text-indigo-700 mb-6">KRL</h2>
+            <h2 class="text-3xl font-bold text-center text-indigo-700 mb-6">KRL Solo Jogja</h2>
 
             <!-- Area untuk timer besar kereta KRL terdekat -->
             <div class="text-center mb-6">
@@ -324,7 +324,7 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <!-- Menggunakan px-1 dan py-2 untuk padding yang lebih kecil -->
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">BERANGKAT</th>
+                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">JALAN</th>
                             <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">TIBA</th>
                             <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">SISA WAKTU</th>
                             <th scope="col" class="px-1 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">DURASI</th>
@@ -504,7 +504,7 @@
                 }
 
             } else {
-                infoDisplay.textContent = 'Tidak ada jadwal tersisa hari ini.';
+                infoDisplay.textContent = '⚠️ Jadwal Kereta hari ini sudah habis!';
                 timerDisplay.textContent = '--:--:--';
                 progressBar.style.width = '0%';
                 progressBar.classList.remove('warning');
