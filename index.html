@@ -3,200 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚂 Jadwal Kereta Api Sragen Solo Palur Jogja KRL & KA BIAS oleh Endro Jagovisual</title>
-    <!-- Tailwind CSS untuk styling modern dan responsif -->
+    <title>Jadwal KRL Jogja</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Menggunakan font 'Montserrat' untuk seluruh halaman -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            min-height: 100vh;
+            color: var(--dark);
+            overflow-x: hidden;
         }
-        /* Kelas untuk animasi fade-in */
-        .fade-in {
-            animation: fadeIn 0.8s ease-in-out;
+
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* Kelas untuk animasi fade-out */
-        .fade-out {
-            animation: fadeOut 0.5s ease-in-out;
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); }
-        }
-        /* Menggunakan opacity dan visibility untuk transisi tab yang halus */
-        .tab-content {
-            transition: opacity 0.5s ease-in-out;
-            opacity: 0;
-            visibility: hidden;
+
+        .tab-indicator {
             position: absolute;
-            width: 100%; /* Menyesuaikan dengan padding container */
+            bottom: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 3px 3px 0 0;
         }
-        .tab-content.active {
-            opacity: 1;
-            visibility: visible;
+
+        .train-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .train-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .train-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .train-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+
+        .progress-fill {
+            transition: width 1s linear;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .route-line {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .route-line::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+
+        .route-point {
             position: relative;
         }
-        .disabled {
-            opacity: 0.5;
-            filter: grayscale(80%);
-            pointer-events: none;
+
+        .route-point::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--primary);
+            z-index: 1;
         }
-        /* Style untuk progress bar yang bergerak dari kanan ke kiri */
-        .progress-bar-container {
-            height: 8px;
-            background-color: #cbd5e1;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 8px;
+
+        .route-point.active::before {
+            background: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
         }
-        .progress-bar {
-            height: 100%;
-            width: 100%; /* Default width is full */
-            background-color: #4f46e5; /* Default color is blue */
-            transition: background-color 0.5s ease-in-out, width 1s linear;
+
+        .floating-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
-        .progress-bar.warning {
-            background-color: #ef4444; /* Red color for warning */
+
+        .floating-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(99, 102, 241, 0.6);
         }
-        /* Menyesuaikan gaya tabel agar tidak ada scroll horizontal */
-        .min-w-full {
-            width: 100%;
-            table-layout: fixed; /* Memastikan lebar kolom sama rata */
+
+        .time-display {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
         }
-        /* Membuat padding kolom lebih ketat */
-        th, td {
-            padding-left: 0.25rem;
-            padding-right: 0.25rem;
+
+        .blink {
+            animation: blink-animation 1.5s infinite;
+        }
+
+        @keyframes blink-animation {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .urgent {
+            animation: urgent-pulse 1s infinite;
+        }
+
+        @keyframes urgent-pulse {
+            0% { color: inherit; }
+            50% { color: var(--danger); }
+            100% { color: inherit; }
+        }
+
+        .loading-skeleton {
+            height: 100px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .train-card {
+                padding: 16px !important;
+            }
+            
+            .route-line {
+                padding-left: 20px;
+            }
+            
+            .route-point::before {
+                left: -20px;
+                width: 12px;
+                height: 12px;
+            }
+            
+            .route-line::before {
+                left: 6px;
+            }
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
-
-    <!-- Container utama aplikasi -->
-    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 w-full max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-2">🚂 Jadwal Kereta</h1>
-
-        <!-- View utama dengan tabs (KA BIAS + KRL) -->
-        <div id="main-view" class="fade-in">
-            <!-- Area untuk timer besar kereta terdekat -->
-            <div class="text-center mb-6">
-                <div id="main-next-train-info" class="text-gray-600 font-semibold mb-1"></div>
-                <div id="main-next-train-timer" class="text-5xl md:text-6xl font-extrabold text-indigo-800 tracking-tighter">
-                    --:--:--
+<body>
+    <!-- Main Container -->
+    <div class="min-h-screen p-4 md:p-6">
+        <div class="max-w-4xl mx-auto">
+            <!-- Main Content -->
+            <div class="glass-morphism rounded-2xl overflow-hidden fade-in">
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-gray-200 relative">
+                    <button class="tab-btn flex-1 py-4 px-6 text-center font-medium text-indigo-600 relative" data-tab="krl">
+                        <i class="fas fa-subway mr-2"></i> KRL Solo-Jogja
+                    </button>
+                    <button class="tab-btn flex-1 py-4 px-6 text-center font-medium text-gray-700 hover:text-indigo-600 transition-colors relative" data-tab="kereta">
+                        <i class="fas fa-train mr-2"></i> Kereta Sragen-Jogja
+                    </button>
+                    <div class="tab-indicator" id="tabIndicator"></div>
                 </div>
-                <!-- Progress bar untuk menunjukkan sisa waktu dalam 2 jam -->
-                <div class="progress-bar-container">
-                    <div id="main-progress-bar" class="progress-bar"></div>
+
+                <!-- Tab Content -->
+                <div class="p-4 md:p-6">
+                    <!-- KRL Tab Content -->
+                    <div id="krl-tab" class="tab-content">
+                        <!-- Next Train Info -->
+                        <div class="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-4 md:p-6 text-white mb-6 pulse-animation">
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <div>
+                                    <p class="text-purple-100 mb-1 text-sm">KRL Selanjutnya</p>
+                                    <h2 class="text-2xl md:text-3xl font-bold mb-1 blink" id="krl-next-time">--:--</h2>
+                                    <p class="text-purple-100 text-sm" id="krl-next-route">Palur → Jogja</p>
+                                </div>
+                                <div class="mt-3 md:mt-0 text-center">
+                                    <div class="text-3xl md:text-4xl font-bold time-display" id="krl-countdown">--:--:--</div>
+                                    <div class="mt-2">
+                                        <div class="w-48 md:w-64 h-2 bg-white/30 rounded-full overflow-hidden">
+                                            <div class="h-full bg-white progress-fill" id="krl-progress" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sub Tabs -->
+                        <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
+                            <button class="krl-sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="solo-jogja">
+                                Palur → Jogja
+                            </button>
+                            <button class="krl-sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="jogja-solo">
+                                Jogja → Palur
+                            </button>
+                        </div>
+
+                        <!-- Schedule Cards -->
+                        <div id="krl-schedule-container" class="space-y-4">
+                            <!-- Loading Skeletons -->
+                            <div class="loading-skeleton skeleton"></div>
+                            <div class="loading-skeleton skeleton"></div>
+                            <div class="loading-skeleton skeleton"></div>
+                        </div>
+                    </div>
+
+                    <!-- Kereta Tab Content -->
+                    <div id="kereta-tab" class="tab-content hidden">
+                        <!-- Next Train Info -->
+                        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-4 md:p-6 text-white mb-6 pulse-animation">
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <div>
+                                    <p class="text-indigo-100 mb-1 text-sm">Kereta Selanjutnya</p>
+                                    <h2 class="text-2xl md:text-3xl font-bold mb-1 blink" id="kereta-next-time">--:--</h2>
+                                    <p class="text-indigo-100 text-sm" id="kereta-next-route">Sragen → Jogja</p>
+                                </div>
+                                <div class="mt-3 md:mt-0 text-center">
+                                    <div class="text-3xl md:text-4xl font-bold time-display" id="kereta-countdown">--:--:--</div>
+                                    <div class="mt-2">
+                                        <div class="w-48 md:w-64 h-2 bg-white/30 rounded-full overflow-hidden">
+                                            <div class="h-full bg-white progress-fill" id="kereta-progress" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sub Tabs -->
+                        <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
+                            <button class="sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="pergi">
+                                Sragen → Jogja
+                            </button>
+                            <button class="sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="pulang">
+                                Jogja → Sragen
+                            </button>
+                        </div>
+
+                        <!-- Schedule Cards -->
+                        <div id="kereta-schedule-container" class="space-y-4">
+                            <!-- Loading Skeletons -->
+                            <div class="loading-skeleton skeleton"></div>
+                            <div class="loading-skeleton skeleton"></div>
+                            <div class="loading-skeleton skeleton"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Tombol tab untuk pergi dan pulang -->
-            <!-- Menghilangkan justify-center dan menambahkan flex-1 ke tombol -->
-            <div class="flex space-x-4 mb-6">
-                <button id="tab-pergi" class="tab-button active flex-1 px-6 py-2 rounded-lg font-semibold text-gray-700 bg-gray-200 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Sragen → Jogja</button>
-                <button id="tab-pulang" class="tab-button flex-1 px-6 py-2 rounded-lg font-semibold text-gray-700 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Jogja → Sragen</button>
-            </div>
-
-            <!-- Konten tab Pergi -->
-            <div id="content-pergi" class="tab-content active">
-                <div id="jadwal-pergi">
-                    <!-- Jadwal akan dibuat secara dinamis di sini -->
-                </div>
-            </div>
-
-            <!-- Konten tab Pulang -->
-            <div id="content-pulang" class="tab-content">
-                <div id="jadwal-pulang">
-                    <!-- Jadwal akan dibuat secara dinamis di sini -->
-                </div>
-            </div>
-            
-            <!-- Tombol untuk melihat jadwal KRL lengkap -->
-            <div class="mt-8 text-center">
-                <button id="show-krl-schedule" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-lg shadow-md transition-all duration-300 hover:bg-indigo-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    🔍 JADWAL KRL
-                </button>
-            </div>
-        </div>
-
-        <!-- View terpisah untuk jadwal KRL lengkap (hidden by default) -->
-        <div id="krl-view" class="hidden">
-            <h2 class="text-3xl font-bold text-center text-indigo-700 mb-6">KRL Solo Jogja</h2>
-
-            <!-- Area untuk timer besar kereta KRL terdekat -->
-            <div class="text-center mb-6">
-                <div id="krl-next-train-info" class="text-gray-600 font-semibold mb-1"></div>
-                <div id="krl-next-train-timer" class="text-5xl md:text-6xl font-extrabold text-indigo-800 tracking-tighter">
-                    --:--:--
-                </div>
-                <!-- Progress bar untuk menunjukkan sisa waktu dalam 2 jam -->
-                <div class="progress-bar-container">
-                    <div id="krl-progress-bar" class="progress-bar"></div>
-                </div>
-            </div>
-
-            <!-- Tombol tab untuk rute KRL -->
-            <!-- Menghilangkan justify-center dan menambahkan flex-1 ke tombol -->
-            <div class="flex space-x-4 mb-6">
-                <button id="tab-krl-solo-jogja" class="krl-tab-button active flex-1 px-6 py-2 rounded-lg font-semibold text-gray-700 bg-gray-200 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Palur → Jogja</button>
-                <button id="tab-krl-jogja-solo" class="krl-tab-button flex-1 px-6 py-2 rounded-lg font-semibold text-gray-700 transition-colors duration-300 hover:bg-indigo-100 focus:outline-none">Jogja → Palur</button>
-            </div>
-
-            <!-- Konten tab KRL Solo -> Jogja -->
-            <div id="content-krl-solo-jogja" class="tab-content active">
-                <div id="jadwal-krl-solo-jogja" class="mb-6">
-                    <!-- Jadwal KRL akan dibuat secara dinamis di sini -->
-                </div>
-            </div>
-
-            <!-- Konten tab KRL Jogja -> Solo -->
-            <div id="content-krl-jogja-solo" class="tab-content">
-                <div id="jadwal-krl-jogja-solo">
-                    <!-- Jadwal KRL akan dibuat secara dinamis di sini -->
-                </div>
-            </div>
-            
-            <!-- Tombol kembali yang dipindahkan ke bagian bawah -->
-            <div class="mt-8 text-center">
-                 <button id="back-to-main" class="flex items-center justify-center mx-auto space-x-2 px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-lg shadow-md transition-all duration-300 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                    <span>🔍 KERETA SRAGEN - JOGJA</span>
-                </button>
             </div>
         </div>
     </div>
 
+    <!-- Floating Action Button -->
+    <div class="floating-button" id="filterToggle" title="Tampilkan semua jadwal">
+        <i class="fas fa-filter text-2xl"></i>
+    </div>
+
     <script>
-        // Fungsi pembantu untuk konversi waktu menjadi menit
-        function timeToMinutes(time) {
-            const [h, m] = time.split(':').map(Number);
-            return h * 60 + m;
-        }
-
-        // Fungsi pembantu untuk konversi menit menjadi format HH:MM
-        function minutesToHHMM(totalMinutes) {
-            if (totalMinutes < 0) return `--:--`;
-            const hours = Math.floor(totalMinutes / 60);
-            const minutes = totalMinutes % 60;
-            const format = (value) => String(value).padStart(2, '0');
-            return `${format(hours)}:${format(minutes)}`;
-        }
-
-        // Data jadwal perjalanan KA BIAS & KRL
+        // Data jadwal (tetap sama)
         const jadwalPergi = [
             {
-                berangkatAwal: '07:09', // Sragen
-                sampaiTransit: '07:32', // Solo Jebres
-                berangkatTransit: '09:02', // Solo Jebres
-                sampaiAkhir: '10:27' // Jogja
+                berangkatAwal: '07:09',
+                sampaiTransit: '07:32',
+                berangkatTransit: '09:02',
+                sampaiAkhir: '10:27'
             },
             {
                 berangkatAwal: '10:06',
@@ -226,10 +386,10 @@
 
         const jadwalPulang = [
             {
-                berangkatAwal: '05:05', // Jogja
-                sampaiTransit: '06:21', // Solo Jebres
-                berangkatTransit: '06:29', // Solo Jebres
-                sampaiAkhir: '06:50' // Sragen
+                berangkatAwal: '05:05',
+                sampaiTransit: '06:21',
+                berangkatTransit: '06:29',
+                sampaiAkhir: '06:50'
             },
             {
                 berangkatAwal: '07:05',
@@ -257,7 +417,6 @@
             }
         ];
         
-        // Data jadwal KRL lengkap
         const jadwalKrlSoloJogja = [
             { berangkat: '5:00', sampai: '6:23' },
             { berangkat: '6:05', sampai: '7:29' },
@@ -290,8 +449,24 @@
             { berangkat: '21:20', sampai: '22:43' },
             { berangkat: '22:35', sampai: '23:54' }
         ];
-        
-        // Fungsi untuk menghitung durasi
+
+        // State for filter
+        let showAllSchedules = true;
+
+        // Helper functions
+        function timeToMinutes(time) {
+            const [h, m] = time.split(':').map(Number);
+            return h * 60 + m;
+        }
+
+        function minutesToHHMM(totalMinutes) {
+            if (totalMinutes < 0) return `--:--`;
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            const format = (value) => String(value).padStart(2, '0');
+            return `${format(hours)}:${format(minutes)}`;
+        }
+
         function calculateDurations(item) {
             const transitDuration = item.berangkatTransit ? timeToMinutes(item.berangkatTransit) - timeToMinutes(item.sampaiTransit) : null;
             const totalDuration = item.sampaiAkhir ? timeToMinutes(item.sampaiAkhir) - timeToMinutes(item.berangkatAwal) : timeToMinutes(item.sampai) - timeToMinutes(item.berangkat);
@@ -301,147 +476,154 @@
             };
         }
 
-        // Fungsi untuk membuat elemen jadwal di DOM dalam bentuk tabel
-        function renderJadwal(data, containerId, isKrlSchedule = false) {
+        // Render schedule cards
+        function renderScheduleCards(data, containerId, isKrl = false) {
             const container = document.getElementById(containerId);
-            container.innerHTML = ''; // Membersihkan konten yang ada
+            container.innerHTML = '';
             
-            // Menambahkan paragraf deskripsi jika rute Sragen -> Jogja
-            if (containerId === 'jadwal-pergi') {
-                const description = document.createElement('p');
-                description.className = 'text-sm text-gray-600 mb-4 text-center';
-                description.innerHTML = '⚠️ Dari Sragen ke Solo Jebres naik <span class="font-bold">KA BIAS</span> Lalu dari Solo Jebres ke Jogja naik <span class="font-bold">KRL</span>.';
+            if (containerId === 'kereta-schedule-container' && document.querySelector('[data-subtab="pergi"]').classList.contains('bg-white')) {
+                const description = document.createElement('div');
+                description.className = 'bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded';
+                description.innerHTML = `
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700">
+                                <span class="font-semibold">Informasi:</span> Dari Sragen ke Solo Jebres naik <span class="font-bold">KA BIAS</span>, lalu dari Solo Jebres ke Jogja naik <span class="font-bold">KRL</span>.
+                            </p>
+                        </div>
+                    </div>
+                `;
                 container.appendChild(description);
             }
 
-            const table = document.createElement('table');
-            // Menyesuaikan padding tabel untuk membuatnya lebih ringkas
-            table.className = 'min-w-full divide-y divide-gray-200 shadow-sm rounded-lg';
-
-            let tableHeaderContent;
-            if (isKrlSchedule) {
-                 tableHeaderContent = `
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <!-- Menggunakan px-1 dan py-2 untuk padding yang lebih kecil -->
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">JALAN</th>
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">TIBA</th>
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">SISA WAKTU</th>
-                            <th scope="col" class="px-1 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">DURASI</th>
-                        </tr>
-                    </thead>
-                `;
-            } else {
-                tableHeaderContent = `
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <!-- Kolom "SISA WAKTU" ditambahkan di sini -->
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">JALAN</th>
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">TIBA</th>
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">SISA WAKTU</th>
-                            <th scope="col" class="px-1 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">TRANSIT</th>
-                            <th scope="col" class="px-1 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">DURASI</th>
-                        </tr>
-                    </thead>
-                `;
-            }
-            
-            table.innerHTML = tableHeaderContent;
-            
-            const tableBody = document.createElement('tbody');
-            tableBody.className = 'bg-white divide-y divide-gray-200';
-
             data.forEach((item, index) => {
                 const durations = calculateDurations(item);
-                const row = document.createElement('tr');
-                row.dataset.berangkat = isKrlSchedule ? item.berangkat : item.berangkatAwal;
-                row.className = 'transition-all duration-300';
-
-                let rowContent;
-                if (isKrlSchedule) {
-                    rowContent = `
-                        <!-- Menggunakan px-1 dan py-2 untuk padding yang lebih kecil -->
-                        <td class="px-1 py-2 text-sm text-center font-semibold text-gray-800">
-                            ${item.berangkat}
-                        </td>
-                        <td class="px-1 py-2 text-sm text-center font-semibold text-gray-800">
-                            ${item.sampai}
-                        </td>
-                        <td class="px-1 py-2 text-sm text-center text-gray-500 font-semibold" data-timer-id="${containerId}-${index}">
-                            -
-                        </td>
-                        <td class="px-1 py-2 text-sm text-right font-bold text-indigo-700">
-                            <div>
-                                ${minutesToHHMM(durations.total)}
+                const card = document.createElement('div');
+                card.className = 'train-card bg-white rounded-xl p-4 md:p-6 shadow-sm';
+                card.dataset.berangkat = isKrl ? item.berangkat : item.berangkatAwal;
+                
+                if (isKrl) {
+                    card.innerHTML = `
+                        <div class="flex flex-col">
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-subway text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg">KRL</h3>
+                                        <p class="text-gray-500 text-sm">Palur → Jogja</p>
+                                    </div>
+                                </div>
+                                <div class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium whitespace-nowrap" data-duration-id="${containerId}-${index}">
+                                    Durasi: ${minutesToHHMM(durations.total)}
+                                </div>
                             </div>
-                        </td>
+                            <div class="flex justify-between items-end">
+                                <div class="route-line flex-1">
+                                    <div class="route-point active mb-3">
+                                        <div class="font-semibold text-lg">${item.berangkat}</div>
+                                        <div class="text-sm text-gray-500">Palur</div>
+                                    </div>
+                                    <div class="route-point">
+                                        <div class="font-semibold text-lg">${item.sampai}</div>
+                                        <div class="text-sm text-gray-500">Jogja</div>
+                                    </div>
+                                </div>
+                                <div class="ml-4 text-right">
+                                    <div class="text-sm text-gray-500">Sisa waktu</div>
+                                    <div class="text-xl font-bold text-indigo-600" data-timer-id="${containerId}-${index}">
+                                        --
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     `;
                 } else {
-                    rowContent = `
-                        <!-- Kolom "SISA WAKTU" ditambahkan di sini -->
-                        <td class="px-1 py-2 text-sm text-center font-semibold text-gray-800">
-                            ${item.berangkatAwal}
-                        </td>
-                        <td class="px-1 py-2 text-sm text-center font-semibold text-gray-800">
-                            ${item.sampaiAkhir}
-                        </td>
-                        <td class="px-1 py-2 text-sm text-center text-gray-500 font-semibold" data-timer-id="${containerId}-${index}">
-                            -
-                        </td>
-                        <td class="px-1 py-2 text-sm text-center text-gray-500">
-                            <div class="font-semibold text-gray-700">
-                                ${minutesToHHMM(durations.transit)}
+                    card.innerHTML = `
+                        <div class="flex flex-col">
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-train text-indigo-600"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg">Kereta Api</h3>
+                                        <p class="text-gray-500 text-sm">Sragen → Jogja</p>
+                                    </div>
+                                </div>
+                                <div class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium whitespace-nowrap" data-duration-id="${containerId}-${index}">
+                                    Durasi: ${minutesToHHMM(durations.total)}
+                                </div>
                             </div>
-                        </td>
-                        <td class="px-1 py-2 text-sm text-right font-bold text-indigo-700">
-                            <div>
-                                 ${minutesToHHMM(durations.total)}
+                            <div class="flex justify-between items-end">
+                                <div class="route-line flex-1">
+                                    <div class="route-point active mb-3">
+                                        <div class="font-semibold text-lg">${item.berangkatAwal}</div>
+                                        <div class="text-sm text-gray-500">Sragen</div>
+                                    </div>
+                                    <div class="route-point mb-3">
+                                        <div class="font-semibold text-lg">${item.sampaiTransit}</div>
+                                        <div class="text-sm text-gray-500">Solo Jebres</div>
+                                        <div class="text-xs text-indigo-600 mt-1">Transit: ${minutesToHHMM(durations.transit)}</div>
+                                    </div>
+                                    <div class="route-point">
+                                        <div class="font-semibold text-lg">${item.sampaiAkhir}</div>
+                                        <div class="text-sm text-gray-500">Jogja</div>
+                                    </div>
+                                </div>
+                                <div class="ml-4 text-right">
+                                    <div class="text-sm text-gray-500">Sisa waktu</div>
+                                    <div class="text-xl font-bold text-indigo-600" data-timer-id="${containerId}-${index}">
+                                        --
+                                    </div>
+                                </div>
                             </div>
-                        </td>
+                        </div>
                     `;
                 }
                 
-                row.innerHTML = rowContent;
-                tableBody.appendChild(row);
+                container.appendChild(card);
             });
-            
-            table.appendChild(tableBody);
-            container.appendChild(table);
         }
 
-        /**
-         * Memperbarui hitungan mundur dan progress bar untuk jadwal tertentu
-         * @param {Array} data - Array data jadwal.
-         * @param {string} infoId - ID elemen untuk menampilkan info kereta berikutnya.
-         * @param {string} timerId - ID elemen untuk menampilkan hitungan mundur.
-         * @param {string} progressBarId - ID elemen untuk progress bar.
-         * @param {string} containerId - ID elemen container tabel jadwal.
-         */
-        function updateTimer(data, infoId, timerId, progressBarId, containerId) {
+        // Update timer and progress
+        function updateTimers() {
             const now = new Date();
-            const allRows = document.querySelectorAll(`#${containerId} tbody tr[data-berangkat]`);
             
-            let nextTrain = null;
-            let nextTrainElement = null;
-
-            allRows.forEach((row, index) => {
-                const waktuBerangkatStr = row.dataset.berangkat;
+            // Update Kereta timers
+            const keretaCards = document.querySelectorAll('#kereta-schedule-container .train-card');
+            let nextKereta = null;
+            let nextKeretaElement = null;
+            let hasAvailableKereta = false;
+            
+            keretaCards.forEach(card => {
+                const waktuBerangkatStr = card.dataset.berangkat;
                 const [hours, minutes] = waktuBerangkatStr.split(':').map(Number);
-                
                 let waktuBerangkat = new Date();
                 waktuBerangkat.setHours(hours, minutes, 0, 0);
-
-                const timerCell = row.querySelector(`[data-timer-id="${containerId}-${index}"]`);
-                if (!timerCell) return; // Pastikan elemen timer ada
-
+                
+                const timerCell = card.querySelector('[data-timer-id^="kereta-schedule-container"]');
                 if (now > waktuBerangkat) {
-                    row.classList.add('disabled');
-                    timerCell.textContent = '0';
+                    card.style.opacity = '0.5';
+                    timerCell.textContent = 'Berangkat';
+                    timerCell.className = 'text-xl font-bold text-gray-500';
+                    
+                    // Hide card if filter is active
+                    if (!showAllSchedules) {
+                        card.style.display = 'none';
+                    }
                 } else {
-                    row.classList.remove('disabled');
-                    if (!nextTrain || waktuBerangkat < nextTrain) {
-                        nextTrain = waktuBerangkat;
-                        nextTrainElement = row;
+                    card.style.opacity = '1';
+                    card.style.display = 'block';
+                    hasAvailableKereta = true;
+                    
+                    if (!nextKereta || waktuBerangkat < nextKereta) {
+                        nextKereta = waktuBerangkat;
+                        nextKeretaElement = card;
                     }
                     
                     const sisaWaktuMs = waktuBerangkat - now;
@@ -454,177 +636,264 @@
                         timerText = `${sisaJam}j ${sisaMenit}m`;
                     } else {
                         timerText = `${sisaMenit}m`;
+                        
+                        // Add urgent class if less than 15 minutes
+                        if (sisaMenit <= 15) {
+                            timerCell.classList.add('urgent');
+                        } else {
+                            timerCell.classList.remove('urgent');
+                        }
                     }
                     timerCell.textContent = timerText;
+                    timerCell.className = 'text-xl font-bold text-indigo-600';
                 }
             });
-
-            // Reset highlight dari semua baris
-            allRows.forEach(row => {
-                row.classList.remove('bg-indigo-100');
-            });
-
-            const progressBar = document.getElementById(progressBarId);
-            const timerDisplay = document.getElementById(timerId);
-            const infoDisplay = document.getElementById(infoId);
-
-            if (nextTrainElement) {
-                // Beri highlight pada baris kereta terdekat
-                nextTrainElement.classList.add('bg-indigo-100');
+            
+            // Update KRL timers
+            const krlCards = document.querySelectorAll('#krl-schedule-container .train-card');
+            let nextKrl = null;
+            let nextKrlElement = null;
+            let hasAvailableKrl = false;
+            
+            krlCards.forEach(card => {
+                const waktuBerangkatStr = card.dataset.berangkat;
+                const [hours, minutes] = waktuBerangkatStr.split(':').map(Number);
+                let waktuBerangkat = new Date();
+                waktuBerangkat.setHours(hours, minutes, 0, 0);
                 
-                const sisaWaktuMs = nextTrain - now;
+                const timerCell = card.querySelector('[data-timer-id^="krl-schedule-container"]');
+                if (now > waktuBerangkat) {
+                    card.style.opacity = '0.5';
+                    timerCell.textContent = 'Berangkat';
+                    timerCell.className = 'text-xl font-bold text-gray-500';
+                    
+                    // Hide card if filter is active
+                    if (!showAllSchedules) {
+                        card.style.display = 'none';
+                    }
+                } else {
+                    card.style.opacity = '1';
+                    card.style.display = 'block';
+                    hasAvailableKrl = true;
+                    
+                    if (!nextKrl || waktuBerangkat < nextKrl) {
+                        nextKrl = waktuBerangkat;
+                        nextKrlElement = card;
+                    }
+                    
+                    const sisaWaktuMs = waktuBerangkat - now;
+                    let sisaMenit = Math.max(0, Math.floor(sisaWaktuMs / (1000 * 60)));
+                    
+                    let timerText;
+                    if (sisaMenit >= 60) {
+                        const sisaJam = Math.floor(sisaMenit / 60);
+                        sisaMenit = sisaMenit % 60;
+                        timerText = `${sisaJam}j ${sisaMenit}m`;
+                    } else {
+                        timerText = `${sisaMenit}m`;
+                        
+                        // Add urgent class if less than 15 minutes
+                        if (sisaMenit <= 15) {
+                            timerCell.classList.add('urgent');
+                        } else {
+                            timerCell.classList.remove('urgent');
+                        }
+                    }
+                    timerCell.textContent = timerText;
+                    timerCell.className = 'text-xl font-bold text-indigo-600';
+                }
+            });
+            
+            // Update next train info for Kereta
+            if (nextKeretaElement) {
+                const sisaWaktuMs = nextKereta - now;
                 const sisaJam = Math.floor(sisaWaktuMs / (1000 * 60 * 60));
                 const sisaMenit = Math.floor((sisaWaktuMs % (1000 * 60 * 60)) / (1000 * 60));
                 const sisaDetik = Math.floor((sisaWaktuMs % (1000 * 60)) / 1000);
-
-                infoDisplay.textContent = `Kereta selanjutnya pukul 🕒 ${nextTrainElement.dataset.berangkat}`;
                 
-                let timerText;
-                if (sisaJam > 0) {
-                    timerText = `${sisaJam} jam ${sisaMenit} menit`;
-                } else {
-                    timerText = `${sisaMenit} menit ${sisaDetik} detik`;
-                }
-                timerDisplay.textContent = timerText;
-
+                document.getElementById('kereta-next-time').textContent = nextKeretaElement.dataset.berangkat;
+                document.getElementById('kereta-countdown').textContent = `${sisaJam.toString().padStart(2, '0')}:${sisaMenit.toString().padStart(2, '0')}:${sisaDetik.toString().padStart(2, '0')}`;
+                
                 let progressWidth = 0;
                 const sisaTotalMenit = sisaJam * 60 + sisaMenit + sisaDetik/60;
-                const maxProgressMinutes = 120; // 2 jam
+                const maxProgressMinutes = 120;
                 if (sisaTotalMenit <= maxProgressMinutes) {
                     progressWidth = (sisaTotalMenit / maxProgressMinutes) * 100;
                 }
-                
-                // Mengatur lebar progress bar agar 'mundur'
-                progressBar.style.width = `${progressWidth}%`;
-                // Mengatur warna progress bar
-                if (sisaTotalMenit <= 15) { // Warning: Kurang dari 15 menit
-                    progressBar.classList.add('warning');
-                } else {
-                    progressBar.classList.remove('warning');
-                }
-
+                document.getElementById('kereta-progress').style.width = `${progressWidth}%`;
             } else {
-                infoDisplay.textContent = '⚠️ Jadwal Kereta hari ini sudah habis!';
-                timerDisplay.textContent = '--:--:--';
-                progressBar.style.width = '0%';
-                progressBar.classList.remove('warning');
+                if (!hasAvailableKereta) {
+                    document.getElementById('kereta-next-time').textContent = '⚠️';
+                    document.getElementById('kereta-countdown').textContent = 'Jadwal Kereta hari ini sudah habis!';
+                } else {
+                    document.getElementById('kereta-next-time').textContent = '--:--';
+                    document.getElementById('kereta-countdown').textContent = '--:--:--';
+                }
+                document.getElementById('kereta-progress').style.width = '0%';
+            }
+            
+            // Update next train info for KRL
+            if (nextKrlElement) {
+                const sisaWaktuMs = nextKrl - now;
+                const sisaJam = Math.floor(sisaWaktuMs / (1000 * 60 * 60));
+                const sisaMenit = Math.floor((sisaWaktuMs % (1000 * 60 * 60)) / (1000 * 60));
+                const sisaDetik = Math.floor((sisaWaktuMs % (1000 * 60)) / 1000);
+                
+                document.getElementById('krl-next-time').textContent = nextKrlElement.dataset.berangkat;
+                document.getElementById('krl-countdown').textContent = `${sisaJam.toString().padStart(2, '0')}:${sisaMenit.toString().padStart(2, '0')}:${sisaDetik.toString().padStart(2, '0')}`;
+                
+                let progressWidth = 0;
+                const sisaTotalMenit = sisaJam * 60 + sisaMenit + sisaDetik/60;
+                const maxProgressMinutes = 120;
+                if (sisaTotalMenit <= maxProgressMinutes) {
+                    progressWidth = (sisaTotalMenit / maxProgressMinutes) * 100;
+                }
+                document.getElementById('krl-progress').style.width = `${progressWidth}%`;
+            } else {
+                if (!hasAvailableKrl) {
+                    document.getElementById('krl-next-time').textContent = '⚠️';
+                    document.getElementById('krl-countdown').textContent = 'Jadwal Kereta hari ini sudah habis!';
+                } else {
+                    document.getElementById('krl-next-time').textContent = '--:--';
+                    document.getElementById('krl-countdown').textContent = '--:--:--';
+                }
+                document.getElementById('krl-progress').style.width = '0%';
             }
         }
 
-        // Fungsi untuk mengelola tab
-        function setupTabs(tabButtonsSelector, tabContentsSelector, callback) {
-            const tabButtons = document.querySelectorAll(tabButtonsSelector);
-            const tabContents = document.querySelectorAll(tabContentsSelector);
-
+        // Tab functionality
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabIndicator = document.getElementById('tabIndicator');
+            const keretaTab = document.getElementById('kereta-tab');
+            const krlTab = document.getElementById('krl-tab');
+            
+            // Set initial indicator position to KRL tab (left)
+            const krlTabButton = document.querySelector('[data-tab="krl"]');
+            if (krlTabButton) {
+                tabIndicator.style.width = `${krlTabButton.offsetWidth}px`;
+                tabIndicator.style.left = `${krlTabButton.offsetLeft}px`;
+            }
+            
             tabButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    tabButtons.forEach(btn => {
-                        btn.classList.remove('active', 'bg-gray-200');
-                    });
-                    tabContents.forEach(content => {
-                        content.classList.remove('active');
-                    });
+                    // Update indicator
+                    tabIndicator.style.width = `${button.offsetWidth}px`;
+                    tabIndicator.style.left = `${button.offsetLeft}px`;
                     
-                    button.classList.add('active', 'bg-gray-200');
-                    const contentId = button.id.replace('tab-', 'content-');
-                    document.getElementById(contentId).classList.add('active');
-                    if (callback) {
-                        callback();
+                    // Update active states
+                    tabButtons.forEach(btn => btn.classList.remove('text-indigo-600', 'font-semibold'));
+                    button.classList.add('text-indigo-600', 'font-semibold');
+                    
+                    // Show/hide content
+                    if (button.dataset.tab === 'kereta') {
+                        keretaTab.classList.remove('hidden');
+                        krlTab.classList.add('hidden');
+                    } else {
+                        keretaTab.classList.add('hidden');
+                        krlTab.classList.remove('hidden');
                     }
                 });
             });
         }
-        
-        // Fungsi untuk beralih tampilan dengan animasi transisi
-        function setupViews() {
-            const mainView = document.getElementById('main-view');
-            const krlView = document.getElementById('krl-view');
-            const showKrlBtn = document.getElementById('show-krl-schedule');
-            const backToMainBtn = document.getElementById('back-to-main');
-            const transitionDuration = 500; // Durasi transisi dalam ms, cocok dengan CSS fade-out
 
-            showKrlBtn.addEventListener('click', () => {
-                // Mulai animasi fade-out untuk tampilan utama
-                mainView.classList.add('fade-out');
-                // Setelah animasi selesai, sembunyikan tampilan dan tampilkan tampilan KRL
-                setTimeout(() => {
-                    mainView.classList.add('hidden');
-                    mainView.classList.remove('fade-out'); // Hapus kelas fade-out
-                    krlView.classList.remove('hidden');
-                    krlView.classList.add('fade-in'); // Tambahkan animasi fade-in
-                    runAllUpdates();
-                }, transitionDuration);
+        // Sub-tab functionality
+        function setupSubTabs() {
+            // Kereta sub-tabs
+            const keretaSubTabs = document.querySelectorAll('.sub-tab-btn');
+            keretaSubTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    keretaSubTabs.forEach(t => {
+                        t.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+                    });
+                    tab.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                    
+                    if (tab.dataset.subtab === 'pergi') {
+                        renderScheduleCards(jadwalPergi, 'kereta-schedule-container');
+                    } else {
+                        renderScheduleCards(jadwalPulang, 'kereta-schedule-container');
+                    }
+                });
             });
-
-            backToMainBtn.addEventListener('click', () => {
-                // Mulai animasi fade-out untuk tampilan KRL
-                krlView.classList.add('fade-out');
-                // Setelah animasi selesai, sembunyikan tampilan dan tampilkan tampilan utama
-                setTimeout(() => {
-                    krlView.classList.add('hidden');
-                    krlView.classList.remove('fade-out'); // Hapus kelas fade-out
-                    mainView.classList.remove('hidden');
-                    mainView.classList.add('fade-in'); // Tambahkan animasi fade-in
-                    runAllUpdates();
-                }, transitionDuration);
+            
+            // KRL sub-tabs
+            const krlSubTabs = document.querySelectorAll('.krl-sub-tab-btn');
+            krlSubTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    krlSubTabs.forEach(t => {
+                        t.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+                    });
+                    tab.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                    
+                    if (tab.dataset.subtab === 'solo-jogja') {
+                        renderScheduleCards(jadwalKrlSoloJogja, 'krl-schedule-container', true);
+                    } else {
+                        renderScheduleCards(jadwalKrlJogjaSolo, 'krl-schedule-container', true);
+                    }
+                });
             });
-        }
-        
-        // Fungsi yang menjalankan semua logika update berdasarkan tampilan dan tab aktif
-        function runAllUpdates() {
-            const mainView = document.getElementById('main-view');
-            if (!mainView.classList.contains('hidden')) {
-                // Logika untuk tampilan utama (KA BIAS + KRL)
-                const activeTabId = document.querySelector('#main-view .tab-content.active').id;
-                let data, containerId;
-
-                if (activeTabId === 'content-pergi') {
-                    data = jadwalPergi;
-                    containerId = 'jadwal-pergi';
-                } else if (activeTabId === 'content-pulang') {
-                    data = jadwalPulang;
-                    containerId = 'jadwal-pulang';
-                }
-                
-                if (data && containerId) {
-                    updateTimer(data, 'main-next-train-info', 'main-next-train-timer', 'main-progress-bar', containerId);
-                }
-            } else {
-                // Logika untuk tampilan KRL lengkap
-                const activeTabId = document.querySelector('#krl-view .tab-content.active').id;
-                let data, containerId;
-
-                if (activeTabId === 'content-krl-solo-jogja') {
-                    data = jadwalKrlSoloJogja;
-                    containerId = 'jadwal-krl-solo-jogja';
-                } else if (activeTabId === 'content-krl-jogja-solo') {
-                    data = jadwalKrlJogjaSolo;
-                    containerId = 'jadwal-krl-jogja-solo';
-                }
-                
-                if (data && containerId) {
-                    updateTimer(data, 'krl-next-train-info', 'krl-next-train-timer', 'krl-progress-bar', containerId);
-                }
-            }
+            
+            // Set initial active sub-tab
+            krlSubTabs[0].click();
+            keretaSubTabs[0].click();
         }
 
+        // Filter toggle functionality
+        function setupFilterToggle() {
+            const filterToggle = document.getElementById('filterToggle');
+            const icon = filterToggle.querySelector('i');
+            
+            filterToggle.addEventListener('click', () => {
+                showAllSchedules = !showAllSchedules;
+                
+                if (showAllSchedules) {
+                    icon.classList.remove('fa-clock');
+                    icon.classList.add('fa-filter');
+                    filterToggle.title = "Tampilkan semua jadwal";
+                } else {
+                    icon.classList.remove('fa-filter');
+                    icon.classList.add('fa-clock');
+                    filterToggle.title = "Hanya kereta yang tersedia";
+                }
+                
+                // Refresh the current view
+                const activeTab = document.querySelector('.tab-content:not(.hidden)');
+                if (activeTab.id === 'kereta-tab') {
+                    const activeSubTab = document.querySelector('.sub-tab-btn.bg-white');
+                    if (activeSubTab) {
+                        activeSubTab.click();
+                    }
+                } else {
+                    const activeSubTab = document.querySelector('.krl-sub-tab-btn.bg-white');
+                    if (activeSubTab) {
+                        activeSubTab.click();
+                    }
+                }
+            });
+        }
 
-        // Memanggil fungsi utama saat halaman selesai dimuat
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
-            renderJadwal(jadwalPergi, 'jadwal-pergi');
-            renderJadwal(jadwalPulang, 'jadwal-pulang');
-            renderJadwal(jadwalKrlSoloJogja, 'jadwal-krl-solo-jogja', true);
-            renderJadwal(jadwalKrlJogjaSolo, 'jadwal-krl-jogja-solo', true);
+            setupTabs();
+            setupSubTabs();
+            setupFilterToggle();
             
-            // setupTabs sekarang memanggil runAllUpdates setiap kali tab diubah
-            setupTabs('.tab-button', '#main-view .tab-content', runAllUpdates);
-            setupTabs('.krl-tab-button', '#krl-view .tab-content', runAllUpdates);
-            setupViews();
+            // Initial render
+            renderScheduleCards(jadwalKrlSoloJogja, 'krl-schedule-container', true);
+            renderScheduleCards(jadwalPergi, 'kereta-schedule-container');
             
-            runAllUpdates(); // Jalankan sekali saat halaman dimuat
-            setInterval(runAllUpdates, 1000);
+            // Update timers every second
+            updateTimers();
+            setInterval(updateTimers, 1000);
+            
+            // Add fade-in animation to elements
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 100);
+            });
         });
-
     </script>
 </body>
 </html>
