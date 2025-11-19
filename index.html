@@ -56,6 +56,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         .train-card::before {
@@ -246,17 +247,22 @@
     <div class="min-h-screen p-4 md:p-6">
         <div class="max-w-4xl mx-auto">
             <!-- Main Content -->
+            
             <div class="glass-morphism rounded-2xl overflow-hidden fade-in">
                 <!-- Tab Navigation -->
+                <center><div class="text-sm text-gray-500">Pilih Kereta :</div></center>
+
                 <div class="flex border-b border-gray-200 relative">
                     <button class="tab-btn flex-1 py-4 px-6 text-center font-medium text-indigo-600 relative" data-tab="krl">
-                        <i class="fas fa-subway mr-2"></i> SOLO YK
+                        <i class="fas fa-subway mr-2"></i> KRL
                     </button>
                     <button class="tab-btn flex-1 py-4 px-6 text-center font-medium text-gray-700 hover:text-indigo-600 transition-colors relative" data-tab="kereta">
-                        <i class="fas fa-train mr-2"></i> SRAGEN YK
+                        <i class="fas fa-train mr-2"></i> BIAS
                     </button>
                     <div class="tab-indicator" id="tabIndicator"></div>
                 </div>
+                
+                
 
                 <!-- Tab Content -->
                 <div class="p-4 md:p-6">
@@ -282,8 +288,11 @@
                                 </div>
                             </div>
                         </div>
-<center><div class="text-sm text-gray-500">Berangkat Dari Stasiun :</div></center>
+
+
                         <!-- Sub Tabs -->
+<center><div class="text-sm text-gray-500">Berangkat Dari Stasiun :</div></center>
+                        
                         <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
                             <button class="krl-sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="solo-jogja">
                                 PALUR
@@ -313,7 +322,7 @@
                                     <p class="text-indigo-100 text-sm" id="kereta-next-route">SRAGEN → JOGJA</p>
                                 </div>
                                 <div class="mt-3 md:mt-0 text-center">
-	                                <p class="text-purple-100 mb-1 text-sm">Sisa Waktu</p>
+                                    <p class="text-purple-100 mb-1 text-sm">Sisa Waktu</p>
                                     <div class="text-3xl md:text-4xl font-bold time-display" id="kereta-countdown">--:--:--</div>
                                     <div class="mt-2">
                                         <div class="w-48 md:w-64 h-2 bg-white/30 rounded-full overflow-hidden">
@@ -458,6 +467,8 @@
 
         // State for filter
         let showAllSchedules = true;
+        let currentKrlDirection = 'solo-jogja'; // Track current KRL direction
+        let currentKeretaDirection = 'pergi'; // Track current Kereta direction
 
         // Helper functions
         function timeToMinutes(time) {
@@ -508,10 +519,22 @@
             data.forEach((item, index) => {
                 const durations = calculateDurations(item);
                 const card = document.createElement('div');
-                card.className = 'train-card bg-white rounded-xl p-4 md:p-6 shadow-sm';
+                card.className = 'train-card bg-white rounded-xl p-4 md:p-6';
                 card.dataset.berangkat = isKrl ? item.berangkat : item.berangkatAwal;
                 
                 if (isKrl) {
+                    // Determine route text based on current direction
+                    let routeText, fromStation, toStation;
+                    if (currentKrlDirection === 'solo-jogja') {
+                        routeText = 'Palur → Jogja';
+                        fromStation = 'Palur';
+                        toStation = 'Jogja';
+                    } else {
+                        routeText = 'Jogja → Palur';
+                        fromStation = 'Jogja';
+                        toStation = 'Palur';
+                    }
+                    
                     card.innerHTML = `
                         <div class="flex flex-col">
                             <div class="flex justify-between items-start mb-3">
@@ -521,7 +544,7 @@
                                     </div>
                                     <div>
                                         <h3 class="font-semibold text-lg">KRL</h3>
-                                        <p class="text-gray-500 text-sm">Palur → Jogja</p>
+                                        <p class="text-gray-500 text-sm">${routeText}</p>
                                     </div>
                                 </div>
                                 <div class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium whitespace-nowrap" data-duration-id="${containerId}-${index}">
@@ -532,11 +555,11 @@
                                 <div class="route-line flex-1">
                                     <div class="route-point active mb-3">
                                         <div class="font-semibold text-lg">${item.berangkat}</div>
-                                        <div class="text-sm text-gray-500">Palur</div>
+                                        <div class="text-sm text-gray-500">${fromStation}</div>
                                     </div>
                                     <div class="route-point">
                                         <div class="font-semibold text-lg">${item.sampai}</div>
-                                        <div class="text-sm text-gray-500">Jogja</div>
+                                        <div class="text-sm text-gray-500">${toStation}</div>
                                     </div>
                                 </div>
                                 <div class="ml-4 text-right">
@@ -549,6 +572,18 @@
                         </div>
                     `;
                 } else {
+                    // Determine route text based on current direction
+                    let routeText, fromStation, toStation;
+                    if (currentKeretaDirection === 'pergi') {
+                        routeText = 'Sragen → Jogja';
+                        fromStation = 'Sragen';
+                        toStation = 'Jogja';
+                    } else {
+                        routeText = 'Jogja → Sragen';
+                        fromStation = 'Jogja';
+                        toStation = 'Sragen';
+                    }
+                    
                     card.innerHTML = `
                         <div class="flex flex-col">
                             <div class="flex justify-between items-start mb-3">
@@ -558,7 +593,7 @@
                                     </div>
                                     <div>
                                         <h3 class="font-semibold text-lg">BIAS</h3>
-                                        <p class="text-gray-500 text-sm">Sragen → Jogja</p>
+                                        <p class="text-gray-500 text-sm">${routeText}</p>
                                     </div>
                                 </div>
                                 <div class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium whitespace-nowrap" data-duration-id="${containerId}-${index}">
@@ -569,7 +604,7 @@
                                 <div class="route-line flex-1">
                                     <div class="route-point active mb-3">
                                         <div class="font-semibold text-lg">${item.berangkatAwal}</div>
-                                        <div class="text-sm text-gray-500">Sragen</div>
+                                        <div class="text-sm text-gray-500">${fromStation}</div>
                                     </div>
                                     <div class="route-point mb-3">
                                         <div class="font-semibold text-lg">${item.sampaiTransit}</div>
@@ -578,7 +613,7 @@
                                     </div>
                                     <div class="route-point">
                                         <div class="font-semibold text-lg">${item.sampaiAkhir}</div>
-                                        <div class="text-sm text-gray-500">Jogja</div>
+                                        <div class="text-sm text-gray-500">${toStation}</div>
                                     </div>
                                 </div>
                                 <div class="ml-4 text-right">
@@ -814,6 +849,16 @@
                     });
                     tab.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
                     
+                    // Update current direction
+                    currentKeretaDirection = tab.dataset.subtab;
+                    
+                    // Update route text in the next train info
+                    if (currentKeretaDirection === 'pergi') {
+                        document.getElementById('kereta-next-route').textContent = 'SRAGEN → JOGJA';
+                    } else {
+                        document.getElementById('kereta-next-route').textContent = 'JOGJA → SRAGEN';
+                    }
+                    
                     if (tab.dataset.subtab === 'pergi') {
                         renderScheduleCards(jadwalPergi, 'kereta-schedule-container');
                     } else {
@@ -830,6 +875,16 @@
                         t.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
                     });
                     tab.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                    
+                    // Update current direction
+                    currentKrlDirection = tab.dataset.subtab;
+                    
+                    // Update route text in the next train info
+                    if (currentKrlDirection === 'solo-jogja') {
+                        document.getElementById('krl-next-route').textContent = 'PALUR → JOGJA';
+                    } else {
+                        document.getElementById('krl-next-route').textContent = 'JOGJA → PALUR';
+                    }
                     
                     if (tab.dataset.subtab === 'solo-jogja') {
                         renderScheduleCards(jadwalKrlSoloJogja, 'krl-schedule-container', true);
