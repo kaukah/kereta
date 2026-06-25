@@ -264,10 +264,33 @@
                 
                 
 
+
                 <!-- Tab Content -->
                 <div class="p-4 md:p-6">
+
+
+
+
+
                     <!-- KRL Tab Content -->
                     <div id="krl-tab" class="tab-content">
+
+
+                                                <!-- Sub Tabs -->
+<center><div class="text-sm text-gray-500">Berangkat Dari Stasiun :</div></center>
+                        
+                        <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
+                            <button class="krl-sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="solo-jogja">
+                                PALUR
+                            </button>
+                            <button class="krl-sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="jogja-solo">
+                                JOGJA
+                            </button>
+                        </div>
+
+
+
+
                         <!-- Next Train Info -->
                         <div class="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-4 md:p-6 text-white mb-6 pulse-animation">
                             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -290,17 +313,9 @@
                         </div>
 
 
-                        <!-- Sub Tabs -->
-<center><div class="text-sm text-gray-500">Berangkat Dari Stasiun :</div></center>
-                        
-                        <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
-                            <button class="krl-sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="solo-jogja">
-                                PALUR
-                            </button>
-                            <button class="krl-sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="jogja-solo">
-                                JOGJA
-                            </button>
-                        </div>
+
+
+
 
                         <!-- Schedule Cards -->
                         <div id="krl-schedule-container" class="space-y-4">
@@ -313,6 +328,20 @@
 
                     <!-- Kereta Tab Content -->
                     <div id="kereta-tab" class="tab-content hidden">
+
+                        <center><div class="text-sm text-gray-500">Berangkat Dari Stasiun :</div></center>
+                        <!-- Sub Tabs -->
+                        
+                        <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
+
+
+                            <button class="sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="pergi">
+                                SRAGEN
+                            </button>
+                            <button class="sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="pulang">
+                                JOGJA
+                            </button>
+                        </div>
                         <!-- Next Train Info -->
                         <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-4 md:p-6 text-white mb-6 pulse-animation">
                             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -332,19 +361,11 @@
                                 </div>
                             </div>
                         </div>
-<center><div class="text-sm text-gray-500">Berangkat Dari Stasiun :</div></center>
-                        <!-- Sub Tabs -->
-                        
-                        <div class="flex mb-6 bg-gray-100 rounded-xl p-1">
 
 
-                            <button class="sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="pergi">
-                                SRAGEN
-                            </button>
-                            <button class="sub-tab-btn flex-1 py-3 px-4 rounded-lg font-medium text-gray-600 transition-all" data-subtab="pulang">
-                                JOGJA
-                            </button>
-                        </div>
+
+
+
 
                         <!-- Schedule Cards -->
                         <div id="kereta-schedule-container" class="space-y-4">
@@ -466,7 +487,7 @@
         ];
 
         // State for filter
-        let showAllSchedules = true;
+        let showAllSchedules = false;
         let currentKrlDirection = 'solo-jogja'; // Track current KRL direction
         let currentKeretaDirection = 'pergi'; // Track current Kereta direction
 
